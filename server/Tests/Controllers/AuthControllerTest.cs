@@ -6,6 +6,7 @@ using Api.Etc;
 using Api.Models.Dtos.Requests;
 using Api.Models.Dtos.Responses;
 using Api.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,9 +19,14 @@ public class AuthControllerTest
     WebApplicationFactory<Program> CreateWebApplicationFactory(IAuthService mock)
     {
         return new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
-            builder.ConfigureTestServices(services => services.AddScoped<IAuthService>((s) => mock))
-        );
+        {
+            builder.UseEnvironment("Testing"); // Generated.. Simply uses the Testing enviorement.
+            builder.ConfigureTestServices(services =>
+                services.AddScoped<IAuthService>(_ => mock)
+            );
+        });
     }
+
 
     [Test]
     public async Task Login_Validation()

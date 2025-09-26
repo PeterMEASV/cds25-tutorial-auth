@@ -22,7 +22,7 @@ public class AuthController(IAuthService service) : ControllerBase
     public async Task<RegisterResponse> Register([FromBody] RegisterRequest request)
     {
         var userInfo = await service.Register(request);
-        return new RegisterResponse(UserName: userInfo.UserName);
+         return new RegisterResponse(UserName: userInfo.UserName);
     }
 
     [HttpPost]

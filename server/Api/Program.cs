@@ -95,7 +95,11 @@ public class Program
 
         app.MapControllers();
 
-        app.GenerateApiClientsFromOpenApi("/../../client/src/models/generated-client.ts").Wait();
+        if (!app.Environment.IsEnvironment("Testing"))
+        {
+            app.GenerateApiClientsFromOpenApi("/../../client/src/models/generated-client.ts").Wait();
+        }
+
         app.MapScalarApiReference();
 
         app.Run();
