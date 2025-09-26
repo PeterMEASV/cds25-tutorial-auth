@@ -1,9 +1,11 @@
 using Api.Etc;
 using Api.Etc.NSwag;
+using Api.Security;
 using Api.Services;
 using DataAccess;
 using DataAccess.Entities;
 using DataAccess.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -49,6 +51,10 @@ public class Program
         // Services
         builder.Services.AddScoped<IBlogService, BlogService>();
         builder.Services.AddScoped<IDraftService, DraftService>();
+        
+        // Security
+        builder.Services.AddScoped<IPasswordHasher<User> , NSecArgon2idPasswordHasher>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
 
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
